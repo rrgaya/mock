@@ -9,7 +9,11 @@ import (
 
 func main() {
 
-	http.HandleFunc("/", api.GetRandomUser)
+	service := api.Service{
+		HTTPClient: http.DefaultClient,
+	}
+
+	http.HandleFunc("/", service.GetRandomUser)
 
 	log.Println("Lintening in 8000...")
 	panic(http.ListenAndServe("localhost:8000", nil))

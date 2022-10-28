@@ -7,7 +7,15 @@ import (
 	"net/http"
 )
 
-func GetRandomUser(w http.ResponseWriter, r *http.Request) {
+type HTTPClientInterface interface {
+	Do(req *http.Request) (*http.Response, error)
+}
+
+type Service struct {
+	HTTPClient HTTPClientInterface
+}
+
+func (s *Service) GetRandomUser(w http.ResponseWriter, r *http.Request) {
 	apiUrl := "https://randomuser.me/api/"
 
 	req, err := http.NewRequest(http.MethodGet, apiUrl, nil)
@@ -15,7 +23,9 @@ func GetRandomUser(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 	}
 
-	response, err := http.DefaultClient.Do(req)
+	// response, err := http.DefaultClient.Do(req)
+	response, err := s.HTTPClient.Do(req)
+
 	if err != nil {
 		log.Println(err)
 	}
