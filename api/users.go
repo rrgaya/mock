@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -18,8 +19,11 @@ func GetRandomUser(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println(err)
 	}
+	defer response.Body.Close()
 
 	data, _ := ioutil.ReadAll(response.Body)
+
+	fmt.Println(string(data)) // TODO: Remover! Apenas em desenvolvimento.
 
 	w.WriteHeader(http.StatusOK)
 	w.Write(data)
