@@ -15,6 +15,6 @@ func main() {
 
 	http.HandleFunc("/", service.GetRandomUser)
 
-	log.Println("Lintening in 8000...")
+	log.Println("Listening localhost:8000")
 	panic(http.ListenAndServe("localhost:8000", nil))
 }
